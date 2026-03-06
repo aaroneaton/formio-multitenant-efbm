@@ -1,8 +1,7 @@
-import { Component, inject, OnInit, OnDestroy } from '@angular/core';
-import { Router, RouterLink } from '@angular/router';
+import { Component, inject } from '@angular/core';
+import { RouterLink } from '@angular/router';
 import { FormioAuthService } from '@formio/angular/auth';
 import { TenantService } from '../../../core/tenant/tenant.service';
-import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-top-nav',
@@ -10,25 +9,20 @@ import { Subscription } from 'rxjs';
   templateUrl: './top-nav.component.html',
   styleUrl: './top-nav.component.scss',
 })
-export class TopNavComponent implements OnInit, OnDestroy {
+export class TopNavComponent {
   tenantService = inject(TenantService);
   auth = inject(FormioAuthService);
-  private router = inject(Router);
-  private logoutSub?: Subscription;
-
-  ngOnInit(): void {
-    this.logoutSub = this.auth.onLogout.subscribe(() => {
-      this.tenantService.clear();
-      this.router.navigate(['/login']);
-    });
-  }
-
-  ngOnDestroy(): void {
-    this.logoutSub?.unsubscribe();
-  }
 
   signOut(): void {
-    this.auth.logout();
+    this.tenantService.clear();
+    this.auth.logout(); // synchronously clears formioToken; async server call cancelled by reload
+    localStorage.removeItem('formioUser');
+    localStorage.removeItem('formioAppUser');
+    // Full page reload — destroys all Angular singletons (including EnterpriseBuilderService,
+    // which snapshots the project URL at construction time) so they reinitialize fresh.
+    // NOTE: window.location.href = '/#/login' does NOT reload with hash routing — only the
+    // fragment changes, so the browser fires hashchange (SPA nav) instead of reloading.
+    window.location.reload();
   }
 
   get tenantName(): string {
