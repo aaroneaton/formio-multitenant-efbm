@@ -1,0 +1,31 @@
+<div class="login-page">
+  <div class="login-card">
+    <div class="login-card__wordmark">FormBuilder</div>
+
+    <div class="login-card__field">
+      <label class="login-card__label" for="tenant-select">Tenant</label>
+      <select
+        id="tenant-select"
+        class="login-card__select"
+        (change)="onTenantChange($any($event.target).value)"
+      >
+        <option value="">— Select a tenant —</option>
+        @for (tenant of tenants; track tenant.id) {
+          <option [value]="tenant.id">{{ tenant.displayName }}</option>
+        }
+      </select>
+    </div>
+
+    @if (activeTenant()) {
+      <div class="login-card__form">
+        <formio
+          [src]="auth.loginForm"
+          [hideLoading]="true"
+          (submit)="onLoginSubmit($event)"
+        ></formio>
+      </div>
+    } @else {
+      <p class="login-card__hint">Select a tenant above to continue.</p>
+    }
+  </div>
+</div>

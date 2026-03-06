@@ -1,0 +1,16 @@
+<nav class="top-nav">
+  <div class="top-nav__left">
+    <a routerLink="/forms" class="top-nav__wordmark">FormBuilder</a>
+    @if (tenantName) {
+      <span class="top-nav__tenant-badge">{{ tenantName }}</span>
+    }
+  </div>
+  <div class="top-nav__right">
+    @if (userEmail) {
+      <span class="top-nav__user">{{ userEmail }}</span>
+    }
+    <button class="btn btn-ghost top-nav__signout" (click)="signOut()">
+      Sign Out
+    </button>
+  </div>
+</nav>

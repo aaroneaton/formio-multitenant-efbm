@@ -1,0 +1,77 @@
+// Third-party: enterprise-builder requirements (must come first)
+@import "bootstrap/scss/bootstrap.scss";
+@import "bootswatch/dist/cosmo/variables";
+@import "bootswatch/dist/cosmo/bootstrap";
+@import "@formio/js/dist/formio.full.css";
+@import "bootstrap-icons/font/bootstrap-icons.scss";
+@import "ngx-toastr/toastr";
+
+// Our design system (@import rather than @use to allow placement after third-party @imports)
+@import 'styles/variables';
+@import 'styles/reset';
+@import 'styles/typography';
+
+// Button base
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.625rem 1.25rem;
+  font-family: var(--font-sans);
+  font-size: var(--text-sm);
+  font-weight: 600;
+  line-height: 1;
+  border: none;
+  border-radius: 2px;
+  cursor: pointer;
+  transition: background 0.15s, opacity 0.15s;
+
+  &:disabled {
+    opacity: 0.55;
+    cursor: not-allowed;
+  }
+}
+
+.btn-primary {
+  background: var(--color-text-primary);
+  color: var(--color-bg);
+
+  &:hover:not(:disabled) {
+    background: #333333;
+  }
+}
+
+.btn-destructive {
+  background: var(--color-error);
+  color: #fff;
+
+  &:hover:not(:disabled) {
+    background: #aa1900;
+  }
+}
+
+.btn-ghost {
+  background: transparent;
+  border: 1.5px solid var(--color-border);
+  color: var(--color-text-primary);
+
+  &:hover:not(:disabled) {
+    border-color: var(--color-text-secondary);
+    background: var(--color-bg-secondary);
+  }
+}
+
+// App layout
+.app-content {
+  padding: 2rem;
+}
+
+// Error / info messages
+.inline-error {
+  color: var(--color-error);
+  font-size: var(--text-sm);
+  padding: 0.75rem 1rem;
+  border-left: 3px solid var(--color-error);
+  background: #fff5f5;
+  margin: 1rem 0;
+}
